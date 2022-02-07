@@ -1,0 +1,1 @@
+call "%~dp0\spirit" eval Spirit.Release.migrate
