@@ -10,7 +10,12 @@ defmodule SpiritWeb.Endpoint do
     signing_salt: "IY4N2lUW"
   ]
 
-  socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
+  @cors_options [
+    origin: ["*"]
+  ]
+
+  socket "/live", Phoenix.LiveView.Socket,
+    websocket: [connect_info: [session: @session_options]]
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -43,6 +48,7 @@ defmodule SpiritWeb.Endpoint do
 
   plug Plug.MethodOverride
   plug Plug.Head
+  plug CORSPlug, @cors_options
   plug Plug.Session, @session_options
   plug SpiritWeb.Router
 end

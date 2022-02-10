@@ -8,7 +8,12 @@
 import Config
 
 config :spirit,
-  ecto_repos: [Spirit.Repo]
+  ecto_repos: [Spirit.Repo],
+  auth: [
+    user_timeout: 172_800,
+    pubkey_timeout: 600,
+    challenge_timeout: 120
+  ]
 
 # Configures the endpoint
 config :spirit, SpiritWeb.Endpoint,

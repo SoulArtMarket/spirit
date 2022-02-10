@@ -25,3 +25,6 @@ config :logger, level: :warn
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :joken,
+  default_signer: "i6WK3bGWJigMXeIZcoAfLOgPTufZqvzvWi7u2/dYbgkq0iCUFJkcC+ozWdm7x1Hq"

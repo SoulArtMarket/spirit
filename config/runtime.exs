@@ -50,6 +50,8 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
+  config :joken, default_signer: secret_key_base
+
   # ## Using releases
   #
   # If you are doing OTP releases, you need to instruct Phoenix
