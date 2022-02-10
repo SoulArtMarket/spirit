@@ -3,10 +3,14 @@ defmodule SpiritWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug SpiritWeb.Environment
+    plug SpiritWeb.Auth
   end
 
-  scope "/api", SpiritWeb do
+  scope "/api" do
     pipe_through :api
+    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: SpiritWeb.Schema
+    forward "/", Absinthe.Plug, schema: SpiritWeb.Schema
   end
 
   # Enables LiveDashboard only for development

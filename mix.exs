@@ -38,6 +38,7 @@ defmodule Spirit.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:ecto_sql, "~> 3.6"},
       {:ecto_psql_extras, "~> 0.6"},
+      {:cors_plug, "~> 2.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_dashboard, "~> 0.5"},
       {:esbuild, "~> 0.2", runtime: Mix.env() == :dev},
@@ -45,12 +46,13 @@ defmodule Spirit.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
+      {:joken, "~> 2.4"},
       {:plug_cowboy, "~> 2.5"},
+      {:b58, "~> 1.0"},
       {:dataloader, "~> 1.0"},
       {:absinthe, "~> 1.5"},
       {:absinthe_plug, "~> 1.5"},
-      {:absinthe_relay, "~> 1.5"},
-      {:absinthe_error_payload, "~> 1.1"}
+      {:absinthe_relay, "~> 1.5"}
     ]
   end
 
