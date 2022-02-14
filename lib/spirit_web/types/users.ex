@@ -39,6 +39,7 @@ defmodule SpiritWeb.Types.Users do
       arg :trust, :account_trust
       arg :order_by, list_of(:user_sort_field)
       arg :direction, :sort_direction
+      complexity fn %{first: first}, acc -> acc * first end
       resolve &Resolvers.Users.list/2
     end
   end
