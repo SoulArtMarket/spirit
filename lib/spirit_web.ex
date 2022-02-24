@@ -58,6 +58,33 @@ defmodule SpiritWeb do
     end
   end
 
+  def types do
+    quote do
+      use Absinthe.Schema.Notation
+      use Absinthe.Relay.Schema.Notation, :modern
+      import Absinthe.Resolution.Helpers, only: [dataloader: 1]
+      alias SpiritWeb.{Resolvers, Types, Middleware}
+    end
+  end
+
+  def middleware do
+    quote do
+      @behaviour Absinthe.Middleware
+      import Ecto.Query
+      alias Spirit.Repo
+      alias Absinthe.Resolution
+    end
+  end
+
+  def resolver do
+    quote do
+      import Ecto.Query
+      alias Spirit.Repo
+      alias Absinthe.Relay
+      alias SpiritWeb.Resolvers
+    end
+  end
+
   defp view_helpers do
     quote do
       # Import basic rendering functionality (render, render_layout, etc)
