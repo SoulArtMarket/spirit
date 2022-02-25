@@ -24,7 +24,7 @@ defmodule Spirit.Repo.Migrations.CreateUsers do
         default: fragment("gen_random_uuid()")
 
       add :pubkey, :string, size: 100, null: false
-      add :name, :string, size: 255, null: false
+      add :name, :string, size: 50, null: false
       add :locked, :boolean, null: false, default: false
       add :trust, :account_trust, null: false, default: "unknown"
 

@@ -12,6 +12,12 @@ defmodule SpiritWeb.Types.Users do
     field :id, non_null(:id)
     field :pubkey, non_null(:string)
     field :name, non_null(:string)
+    field :description, :string, do: complexity Complexity.weight(6)
+    field :image, :string
+    field :banner, :string
+    field :website, :string
+    field :twitter, :string
+    field :discord, :string
     field :locked, non_null(:boolean)
     field :trust, non_null(:account_trust)
     field :inserted_at, non_null(:naive_datetime)
@@ -39,7 +45,7 @@ defmodule SpiritWeb.Types.Users do
       arg :trust, :account_trust
       arg :order_by, list_of(:user_sort_field)
       arg :direction, :sort_direction
-      complexity fn %{first: first}, acc -> acc * first end
+      complexity &Complexity.pagination/2
       resolve &Resolvers.Users.list/2
     end
   end
@@ -57,7 +63,12 @@ defmodule SpiritWeb.Types.Users do
     field :update_user, :user_account do
       arg :id, non_null(:id)
       arg :name, :string
-      arg :pubkey, :string
+      arg :description, :string
+      arg :image, :string
+      arg :banner, :string
+      arg :website, :string
+      arg :twitter, :string
+      arg :discord, :string
       middleware Middleware.Auth, :user
       resolve &Resolvers.Users.update/2
     end
