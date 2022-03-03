@@ -41,4 +41,18 @@ defmodule Spirit.AccountsFixtures do
 
     pubkey
   end
+
+  @doc """
+  Generate a email.
+  """
+  def email_fixture(attrs \\ %{}) do
+    {:ok, email} =
+      attrs
+      |> Enum.into(%{
+
+      })
+      |> Spirit.Accounts.create_email()
+
+    email
+  end
 end

@@ -1,5 +1,6 @@
 defmodule Spirit.Accounts.User do
   use Spirit, :schema
+  alias Spirit.Accounts
 
   @mutable_fields [
     :pubkey,
@@ -47,6 +48,8 @@ defmodule Spirit.Accounts.User do
         # The account belongs to the admin team.
         :admin
       ]
+
+    has_one :email, Accounts.Email, references: :id
 
     timestamps()
   end

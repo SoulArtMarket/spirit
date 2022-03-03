@@ -169,4 +169,126 @@ defmodule Spirit.Accounts do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
+  alias Spirit.Accounts.Email
+
+  @doc """
+  Returns the list of emails.
+
+  ## Examples
+
+      iex> list_emails()
+      [%Email{}, ...]
+
+  """
+  def list_emails do
+    Repo.all(Email)
+  end
+
+  @doc """
+  Gets a single email from a user id.
+
+  Raises `Ecto.NoResultsError` if the Email does not exist.
+
+  ## Examples
+
+      iex> get_email!(123)
+      %Email{}
+
+      iex> get_email!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_email!(id), do: Repo.get_by!(Email, user_id: id)
+
+  @doc """
+  Gets a single email from a user id.
+
+  Raises `Ecto.NoResultsError` if the Email does not exist.
+
+  ## Examples
+
+      iex> get_email_by_address!("user@email.com")
+      %Email{}
+
+      iex> get_email_by_address!("nobody@email.com")
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_email_by_address!(address), do: Repo.get_by!(Email, address: address)
+
+  @doc """
+  Registers an email for a user.
+
+  ## Examples
+
+      iex> create_email(user, %{field: new_value})
+      {:ok, %Email{}}
+
+      iex> create_email(user, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_email(%User{} = user, attrs) do
+    user
+    |> Ecto.build_assoc(:email)
+    |> Email.changeset(attrs)
+    |> Repo.insert(returning: true)
+  end
+
+  @doc """
+  Updates an email.
+
+  ## Examples
+
+      iex> update_email(email, %{field: new_value})
+      {:ok, %Email{}}
+
+      iex> update_email(email, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_email(%Email{address: source} = email, %{address: update} = attrs)
+      when source != update do
+    attrs = Map.put(attrs, :verified, false)
+
+    email
+    |> Email.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_email(%Email{} = email, attrs) do
+    email
+    |> Email.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a email.
+
+  ## Examples
+
+      iex> delete_email(email)
+      {:ok, %Email{}}
+
+      iex> delete_email(email)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_email(%Email{} = email) do
+    Repo.delete(email)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking email changes.
+
+  ## Examples
+
+      iex> change_email(email)
+      %Ecto.Changeset{data: %Email{}}
+
+  """
+  def change_email(%Email{} = email, attrs \\ %{}) do
+    Email.changeset(email, attrs)
+  end
 end
