@@ -85,6 +85,15 @@ defmodule SpiritWeb do
     end
   end
 
+  def schema do
+    quote do
+      use Absinthe.Schema
+      use Absinthe.Relay.Schema, :modern
+      alias SpiritWeb.Types
+      alias SpiritWeb.Middleware
+    end
+  end
+
   defp view_helpers do
     quote do
       # Import basic rendering functionality (render, render_layout, etc)
