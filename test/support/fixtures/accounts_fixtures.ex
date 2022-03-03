@@ -3,16 +3,15 @@ defmodule Spirit.AccountsFixtures do
   This module defines test helpers for creating
   entities via the `Spirit.Accounts` context.
   """
-
-  @doc """
-  Generate a unique user email.
-  """
-  def unique_user_email, do: "some email#{System.unique_integer([:positive])}"
+  alias Spirit.Accounts
 
   @doc """
   Generate a unique user pubkey.
   """
-  def unique_user_pubkey, do: "some pubkey#{System.unique_integer([:positive])}"
+  def unique_user_pubkey do
+    :crypto.strong_rand_bytes(32)
+    |> Base58.encode58()
+  end
 
   @doc """
   Generate a user.
@@ -21,24 +20,11 @@ defmodule Spirit.AccountsFixtures do
     {:ok, user} =
       attrs
       |> Enum.into(%{
-        email: unique_user_email(),
         name: "some name",
         pubkey: unique_user_pubkey()
       })
-      |> Spirit.Accounts.create_user()
+      |> Accounts.create_user()
 
     user
-  end
-
-  @doc """
-  Generate a pubkey.
-  """
-  def pubkey_fixture(attrs \\ %{}) do
-    {:ok, pubkey} =
-      attrs
-      |> Enum.into(%{})
-      |> Spirit.Accounts.create_pubkey()
-
-    pubkey
   end
 end

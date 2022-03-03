@@ -14,7 +14,7 @@ config :spirit,
     pubkey_timeout: 600,
     challenge_timeout: 120
   ],
-  max_complexity: 150
+  max_complexity: 200
 
 # Configures the endpoint
 config :spirit, SpiritWeb.Endpoint,

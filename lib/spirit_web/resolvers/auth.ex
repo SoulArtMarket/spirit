@@ -48,19 +48,17 @@ defmodule SpiritWeb.Resolvers.Auth do
       {:ok, token, _claims} = Token.generate_and_sign(claims)
       {:ok, token}
     else
-      _ -> {:error, :unauthorized}
+      _ -> {:error, message: :forbidden, code: 403}
     end
   end
 
-  def verify(_, _, _), do: {:error, :unauthorized}
+  def verify(_, _, _), do: {:error, message: :unauthorized, code: 401}
 
   defp get_or_create_challenge(pubkey) do
     with {:error, _} <- Auth.get_challenge_by_pubkey(pubkey),
          {:ok, challenge} <-
            Auth.create_challenge(%{pubkey: pubkey, message: generate_message()}) do
       {:created, challenge}
-    else
-      result -> result
     end
   end
 
@@ -73,14 +71,13 @@ defmodule SpiritWeb.Resolvers.Auth do
   end
 
   defp verify_signature(pubkey, nonce, message, signature) do
-    with {:ok, signature} <- Base.decode64(signature) do
-      target =
-        [pubkey, nonce, message]
-        |> Enum.intersperse(':')
-        |> Enum.map_join(&to_string/1)
+    target =
+      [pubkey, nonce, message]
+      |> Enum.intersperse(':')
+      |> Enum.map_join(&to_string/1)
 
-      pubkey = Base58.decode(pubkey)
-
+    with {:ok, signature} <- Base.decode64(signature),
+         {:ok, pubkey} <- Base58.decode58(pubkey) do
       :crypto.verify(:eddsa, :none, target, signature, [pubkey, :ed25519])
     end
   end

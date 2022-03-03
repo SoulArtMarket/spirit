@@ -8,7 +8,7 @@ defmodule Spirit.AccountsTest do
 
     import Spirit.AccountsFixtures
 
-    @invalid_attrs %{email: nil, name: nil, pubkey: nil}
+    @invalid_attrs %{name: nil, pubkey: nil}
 
     test "list_users/0 returns all users" do
       user = user_fixture()
@@ -21,12 +21,14 @@ defmodule Spirit.AccountsTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      valid_attrs = %{email: "some email", name: "some name", pubkey: "some pubkey"}
+      valid_attrs = %{
+        name: "some name",
+        pubkey: "FQqQEjpvoiNPdU15nTwwdCpNjtvqP4ium6QHLiLrQuP8"
+      }
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
-      assert user.email == "some email"
       assert user.name == "some name"
-      assert user.pubkey == "some pubkey"
+      assert user.pubkey == "FQqQEjpvoiNPdU15nTwwdCpNjtvqP4ium6QHLiLrQuP8"
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -37,15 +39,13 @@ defmodule Spirit.AccountsTest do
       user = user_fixture()
 
       update_attrs = %{
-        email: "some updated email",
         name: "some updated name",
-        pubkey: "some updated pubkey"
+        pubkey: "AHbe1pYfYTxymJom61VUwMdU6HvD6pqeXTmDk83EaFSn"
       }
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, update_attrs)
-      assert user.email == "some updated email"
       assert user.name == "some updated name"
-      assert user.pubkey == "some updated pubkey"
+      assert user.pubkey == "AHbe1pYfYTxymJom61VUwMdU6HvD6pqeXTmDk83EaFSn"
     end
 
     test "update_user/2 with invalid data returns error changeset" do
@@ -64,5 +64,8 @@ defmodule Spirit.AccountsTest do
       user = user_fixture()
       assert %Ecto.Changeset{} = Accounts.change_user(user)
     end
+  end
+
+  describe "emails" do
   end
 end

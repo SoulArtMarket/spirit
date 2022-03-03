@@ -1,5 +1,21 @@
 defmodule Spirit.Accounts.User do
   use Spirit, :schema
+  alias Spirit.Accounts
+
+  @mutable_fields [
+    :pubkey,
+    :name,
+    :locked,
+    :trust,
+    :image,
+    :banner,
+    :description,
+    :website,
+    :twitter,
+    :discord
+  ]
+
+  @required_fields [:pubkey, :name]
 
   @primary_key false
   schema "users" do
@@ -7,6 +23,13 @@ defmodule Spirit.Accounts.User do
     field :pubkey, :string
     field :name, :string
     field :locked, :boolean
+
+    field :image, :string
+    field :banner, :string
+    field :description, :string
+    field :website, :string
+    field :twitter, :string
+    field :discord, :string
 
     field :trust, Ecto.Enum,
       values: [
@@ -26,20 +49,27 @@ defmodule Spirit.Accounts.User do
         :admin
       ]
 
+    has_one :email, Accounts.Email, references: :id
+
     timestamps()
   end
 
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:pubkey, :name, :locked, :trust])
-    |> validate_required([:pubkey, :name])
-    |> validate_length(:pubkey, min: 30, max: 100, count: :bytes)
+    |> cast(attrs, @mutable_fields)
+    |> validate_required(@required_fields)
+    |> validate_length(:pubkey, max: 44)
     |> validate_format_base58(:pubkey)
-    |> validate_length(:name, max: 50)
-    # This check is applied so that names including emojis don't accidentally
-    # extend past the set column size.
-    |> validate_length(:name, max: 255, count: :bytes)
     |> unique_constraint(:pubkey)
+    |> validate_length(:name, max: 50)
+    |> validate_length(:image, max: 120)
+    |> validate_length(:banner, max: 120)
+    |> validate_length(:description, max: 160)
+    |> validate_length(:website, max: 100)
+    |> validate_link(:website)
+    |> validate_length(:twitter, max: 100)
+    |> validate_link_twitter(:twitter)
+    |> validate_format_discord(:discord)
   end
 end

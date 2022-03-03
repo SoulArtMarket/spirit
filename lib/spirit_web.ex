@@ -63,7 +63,7 @@ defmodule SpiritWeb do
       use Absinthe.Schema.Notation
       use Absinthe.Relay.Schema.Notation, :modern
       import Absinthe.Resolution.Helpers, only: [dataloader: 1]
-      alias SpiritWeb.{Resolvers, Types, Middleware}
+      alias SpiritWeb.{Complexity, Resolvers, Types, Middleware}
     end
   end
 
