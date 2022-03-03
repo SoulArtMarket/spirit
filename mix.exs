@@ -48,7 +48,6 @@ defmodule Spirit.MixProject do
       {:jason, "~> 1.2"},
       {:joken, "~> 2.4"},
       {:plug_cowboy, "~> 2.5"},
-      {:b58, "~> 1.0"},
       {:dataloader, "~> 1.0"},
       {:absinthe, "~> 1.5"},
       {:absinthe_plug, "~> 1.5"},
