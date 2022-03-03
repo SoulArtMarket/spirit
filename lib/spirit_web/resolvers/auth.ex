@@ -71,14 +71,13 @@ defmodule SpiritWeb.Resolvers.Auth do
   end
 
   defp verify_signature(pubkey, nonce, message, signature) do
-    with {:ok, signature} <- Base.decode64(signature) do
-      target =
-        [pubkey, nonce, message]
-        |> Enum.intersperse(':')
-        |> Enum.map_join(&to_string/1)
+    target =
+      [pubkey, nonce, message]
+      |> Enum.intersperse(':')
+      |> Enum.map_join(&to_string/1)
 
-      pubkey = Base58.decode(pubkey)
-
+    with {:ok, signature} <- Base.decode64(signature),
+         {:ok, pubkey} <- Base58.decode58(pubkey) do
       :crypto.verify(:eddsa, :none, target, signature, [pubkey, :ed25519])
     end
   end
