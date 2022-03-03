@@ -48,19 +48,17 @@ defmodule SpiritWeb.Resolvers.Auth do
       {:ok, token, _claims} = Token.generate_and_sign(claims)
       {:ok, token}
     else
-      _ -> {:error, :unauthorized}
+      _ -> {:error, message: :forbidden, code: 403}
     end
   end
 
-  def verify(_, _, _), do: {:error, :unauthorized}
+  def verify(_, _, _), do: {:error, message: :unauthorized, code: 401}
 
   defp get_or_create_challenge(pubkey) do
     with {:error, _} <- Auth.get_challenge_by_pubkey(pubkey),
          {:ok, challenge} <-
            Auth.create_challenge(%{pubkey: pubkey, message: generate_message()}) do
       {:created, challenge}
-    else
-      result -> result
     end
   end
 

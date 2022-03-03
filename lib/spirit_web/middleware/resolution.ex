@@ -7,10 +7,22 @@ defmodule SpiritWeb.Middleware.Resolution do
       Resolution.call(resolution, resolver)
     rescue
       error in Ecto.NoResultsError ->
-        Resolution.put_result(resolution, {:error, error.message})
+        Resolution.put_result(resolution, {:error, message: error.message, code: 404})
+
+      error in Postgrex.Error ->
+        Resolution.put_result(
+          resolution,
+          {:error,
+           message: Postgrex.Error.message(error),
+           exception: error.__struct__,
+           code: 500}
+        )
 
       error ->
-        reraise error, __STACKTRACE__
+        Resolution.put_result(
+          resolution,
+          {:error, message: error.message, exception: error.__struct__, code: 500}
+        )
     end
   end
 

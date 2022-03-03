@@ -4,15 +4,20 @@ defmodule SpiritWeb.Types.Users do
   """
 
   use SpiritWeb, :types
+  alias Spirit.Accounts
 
   connection node_type: :user_account
 
-  @desc "A user account."
+  @desc "A user account"
   object :user_account do
     field :id, non_null(:id)
     field :pubkey, non_null(:string)
     field :name, non_null(:string)
     field :description, :string, do: complexity Complexity.weight(6)
+    field :email, :email do
+      complexity Complexity.weight(5)
+      resolve dataloader(Accounts)
+    end
     field :image, :string
     field :banner, :string
     field :website, :string
@@ -45,7 +50,7 @@ defmodule SpiritWeb.Types.Users do
       arg :trust, :account_trust
       arg :order_by, list_of(:user_sort_field)
       arg :direction, :sort_direction
-      complexity &Complexity.pagination/2
+      complexity Complexity.pagination()
       resolve &Resolvers.Users.list/2
     end
   end

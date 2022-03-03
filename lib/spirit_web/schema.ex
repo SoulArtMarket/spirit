@@ -22,8 +22,15 @@ defmodule SpiritWeb.Schema do
     value :admin
   end
 
+  @desc "Currency"
+  enum :currency do
+    value :sol
+    value :usd
+  end
+
   import_types Absinthe.Type.Custom
   import_types Types.Auth
+  import_types Types.Emails
   import_types Types.Users
 
   query do
@@ -34,6 +41,7 @@ defmodule SpiritWeb.Schema do
   mutation do
     import_fields :auth_mutations
     import_fields :user_mutations
+    import_fields :email_mutations
   end
 
   def context(ctx) do

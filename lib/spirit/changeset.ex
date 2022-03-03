@@ -3,7 +3,9 @@ defmodule Spirit.Changeset do
   alias Ecto.Changeset
 
   @doc """
-  Validate that a field is correctly formatted as an email.
+  Validate that a field is vaguely formatted as an email.
+
+  This isn't accurate and can incorrectly reject some very obscure addresses, but it'll do for now.
   """
   @spec validate_format_email(Changeset.t(), atom, Keyword.t()) :: Changeset.t()
   def validate_format_email(changeset, field, opts \\ []) do
