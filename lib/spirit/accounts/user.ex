@@ -49,7 +49,7 @@ defmodule Spirit.Accounts.User do
         :admin
       ]
 
-    has_one :email, Accounts.Email, references: :id
+    has_one :email, Accounts.Email, references: :id, foreign_key: :id
 
     timestamps()
   end
