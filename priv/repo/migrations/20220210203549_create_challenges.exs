@@ -4,7 +4,7 @@ defmodule Spirit.Repo.Migrations.CreateChallenges do
   def change do
     create table(:challenges) do
       add :message, :string, size: 24, null: false
-      add :pubkey, :string, size: 100, null: false
+      add :pubkey, :string, size: 44, null: false
 
       timestamps()
     end

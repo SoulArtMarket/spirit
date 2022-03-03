@@ -59,7 +59,7 @@ defmodule Spirit.Accounts.User do
     user
     |> cast(attrs, @mutable_fields)
     |> validate_required(@required_fields)
-    |> validate_length(:pubkey, min: 30, max: 100)
+    |> validate_length(:pubkey, max: 44)
     |> validate_format_base58(:pubkey)
     |> unique_constraint(:pubkey)
     |> validate_length(:name, max: 50)

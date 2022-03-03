@@ -14,7 +14,7 @@ defmodule Spirit.Auth.Challenge do
     |> cast(attrs, [:pubkey, :message])
     |> validate_required([:pubkey, :message])
     |> validate_length(:message, is: 24, count: :bytes)
-    |> validate_length(:pubkey, min: 30, max: 100, count: :bytes)
+    |> validate_length(:pubkey, max: 44)
     |> validate_format_base58(:pubkey)
     |> unique_constraint(:message)
     |> unique_constraint(:pubkey)
