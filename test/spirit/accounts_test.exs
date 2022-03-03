@@ -8,7 +8,7 @@ defmodule Spirit.AccountsTest do
 
     import Spirit.AccountsFixtures
 
-    @invalid_attrs %{email: nil, name: nil, pubkey: nil}
+    @invalid_attrs %{name: nil, pubkey: nil}
 
     test "list_users/0 returns all users" do
       user = user_fixture()
@@ -21,12 +21,14 @@ defmodule Spirit.AccountsTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      valid_attrs = %{email: "some email", name: "some name", pubkey: "some pubkey"}
+      valid_attrs = %{
+        name: "some name",
+        pubkey: "FQqQEjpvoiNPdU15nTwwdCpNjtvqP4ium6QHLiLrQuP8"
+      }
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
-      assert user.email == "some email"
       assert user.name == "some name"
-      assert user.pubkey == "some pubkey"
+      assert user.pubkey == "FQqQEjpvoiNPdU15nTwwdCpNjtvqP4ium6QHLiLrQuP8"
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -37,15 +39,13 @@ defmodule Spirit.AccountsTest do
       user = user_fixture()
 
       update_attrs = %{
-        email: "some updated email",
         name: "some updated name",
-        pubkey: "some updated pubkey"
+        pubkey: "AHbe1pYfYTxymJom61VUwMdU6HvD6pqeXTmDk83EaFSn"
       }
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, update_attrs)
-      assert user.email == "some updated email"
       assert user.name == "some updated name"
-      assert user.pubkey == "some updated pubkey"
+      assert user.pubkey == "AHbe1pYfYTxymJom61VUwMdU6HvD6pqeXTmDk83EaFSn"
     end
 
     test "update_user/2 with invalid data returns error changeset" do
@@ -67,54 +67,5 @@ defmodule Spirit.AccountsTest do
   end
 
   describe "emails" do
-    alias Spirit.Accounts.Email
-
-    import Spirit.AccountsFixtures
-
-    @invalid_attrs %{}
-
-    test "list_emails/0 returns all emails" do
-      email = email_fixture()
-      assert Accounts.list_emails() == [email]
-    end
-
-    test "get_email!/1 returns the email with given id" do
-      email = email_fixture()
-      assert Accounts.get_email!(email.id) == email
-    end
-
-    test "create_email/1 with valid data creates a email" do
-      valid_attrs = %{}
-
-      assert {:ok, %Email{} = email} = Accounts.create_email(valid_attrs)
-    end
-
-    test "create_email/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Accounts.create_email(@invalid_attrs)
-    end
-
-    test "update_email/2 with valid data updates the email" do
-      email = email_fixture()
-      update_attrs = %{}
-
-      assert {:ok, %Email{} = email} = Accounts.update_email(email, update_attrs)
-    end
-
-    test "update_email/2 with invalid data returns error changeset" do
-      email = email_fixture()
-      assert {:error, %Ecto.Changeset{}} = Accounts.update_email(email, @invalid_attrs)
-      assert email == Accounts.get_email!(email.id)
-    end
-
-    test "delete_email/1 deletes the email" do
-      email = email_fixture()
-      assert {:ok, %Email{}} = Accounts.delete_email(email)
-      assert_raise Ecto.NoResultsError, fn -> Accounts.get_email!(email.id) end
-    end
-
-    test "change_email/1 returns a email changeset" do
-      email = email_fixture()
-      assert %Ecto.Changeset{} = Accounts.change_email(email)
-    end
   end
 end
