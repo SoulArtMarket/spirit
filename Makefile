@@ -1,6 +1,6 @@
 APP_NAME ?= `grep 'app:' mix.exs | sed 's/,//' | cut -d ':' -f3`
 APP_VERSION ?= `grep 'version:' mix.exs | cut -d '"' -f2`
-APP_ORG ?= cjayross
+APP_ORG ?= soulart
 BUILD ?= `git rev-parse --short HEAD`
 
 all: build
