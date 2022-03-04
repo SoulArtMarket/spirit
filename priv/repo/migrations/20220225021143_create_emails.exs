@@ -12,9 +12,12 @@ defmodule Spirit.Repo.Migrations.CreateEmails do
       "DROP TYPE currency"
     )
 
-    create table(:emails) do
+    create table(:emails, primary_key: false) do
+      add :id, references(:users, type: :uuid, on_delete: :delete_all, validate: true),
+        primary_key: true,
+        null: false
+
       add :address, :string, size: 254, null: false
-      add :user_id, references(:users, type: :uuid, on_delete: :delete_all), null: false
       add :verified, :boolean, null: false, default: false
 
       add :notify_item_sold, :boolean, null: false, default: true
@@ -32,7 +35,9 @@ defmodule Spirit.Repo.Migrations.CreateEmails do
     end
 
     create unique_index(:emails, [:address])
-    create unique_index(:emails, [:user_id])
-    create constraint(:emails, :bid_threshold_must_be_nonnegative, check: "bid_threshold >= 0")
+
+    create constraint(:emails, :bid_threshold_must_be_nonnegative,
+             check: "bid_threshold >= 0"
+           )
   end
 end

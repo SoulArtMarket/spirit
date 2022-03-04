@@ -199,7 +199,7 @@ defmodule Spirit.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_email!(id), do: Repo.get_by!(Email, user_id: id)
+  def get_email!(id), do: Repo.get!(Email, id)
 
   @doc """
   Gets a single email from a user id.
