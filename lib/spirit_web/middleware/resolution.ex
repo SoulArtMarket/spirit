@@ -13,9 +13,7 @@ defmodule SpiritWeb.Middleware.Resolution do
         Resolution.put_result(
           resolution,
           {:error,
-           message: Postgrex.Error.message(error),
-           exception: error.__struct__,
-           code: 500}
+           message: Postgrex.Error.message(error), exception: error.__struct__, code: 500}
         )
 
       error ->
@@ -26,7 +24,7 @@ defmodule SpiritWeb.Middleware.Resolution do
     end
   end
 
-  @spec apply(list()) :: list()
+  @spec apply(list) :: list
   def apply(middleware) when is_list(middleware) do
     middleware
     |> Enum.map(fn

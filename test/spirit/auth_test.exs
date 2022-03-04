@@ -53,6 +53,7 @@ defmodule Spirit.AuthTest do
 
       assert {:ok, %Challenge{} = challenge} =
                Auth.update_challenge(challenge, update_attrs)
+
       assert challenge.pubkey == pubkey
       assert challenge.message == message
     end

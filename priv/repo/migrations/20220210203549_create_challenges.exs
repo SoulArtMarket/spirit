@@ -11,6 +11,9 @@ defmodule Spirit.Repo.Migrations.CreateChallenges do
 
     create unique_index(:challenges, [:message])
     create unique_index(:challenges, [:pubkey])
-    create constraint(:challenges, :message_must_be_128_bits, check: "octet_length(message) = 24")
+
+    create constraint(:challenges, :message_must_be_128_bits,
+             check: "octet_length(message) = 24"
+           )
   end
 end

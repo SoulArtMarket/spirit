@@ -27,7 +27,9 @@ defmodule Spirit.Changeset do
   """
   @spec validate_link(Changeset.t(), atom, Keyword.t()) :: Changeset.t()
   def validate_link(changeset, field, opts \\ []) do
-    regex = ~r"^https://(?:www)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&/=]*)$"
+    regex =
+      ~r"^https://(?:www)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&/=]*)$"
+
     validate_format(changeset, field, regex, opts)
   end
 
