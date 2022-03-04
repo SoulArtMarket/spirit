@@ -43,7 +43,7 @@ defmodule SpiritWeb.Resolvers.Auth do
       claims =
         pubkey
         |> Accounts.get_user_by_pubkey()
-        |> get_claims(pubkey)
+        |> get_account_claims(pubkey)
 
       {:ok, token, _claims} = Token.generate_and_sign(claims)
       {:ok, token}
@@ -82,14 +82,14 @@ defmodule SpiritWeb.Resolvers.Auth do
     end
   end
 
-  defp get_claims({:ok, %{id: id}}, _pubkey),
+  defp get_account_claims({:ok, %{id: id}}, _pubkey),
     do: %{
       "sub" => id,
       "role" => "user",
       "exp" => get_expiration(@user_timeout)
     }
 
-  defp get_claims(_, pubkey),
+  defp get_account_claims(_, pubkey),
     do: %{
       "sub" => pubkey,
       "role" => "pubkey",
