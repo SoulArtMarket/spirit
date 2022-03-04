@@ -4,6 +4,6 @@ defmodule SpiritWeb.Token do
   @impl true
   def token_config do
     default_claims(iss: "spirit", skip: [:aud])
-    |> add_claim("role", nil, &(&1 in ["admin", "user", "pubkey"]))
+    |> add_claim("role", nil, &(&1 in ["admin", "user", "pubkey", "email"]))
   end
 end

@@ -1,9 +1,10 @@
-defmodule SpiritWeb.Schema do
-  use Absinthe.Schema
-  use Absinthe.Relay.Schema, :modern
+defmodule SpiritWeb.Schema.Api do
+  @moduledoc """
+  Data API schema.
+  """
+
+  use SpiritWeb, :schema
   alias Spirit.Accounts
-  alias SpiritWeb.Types
-  alias SpiritWeb.Middleware
 
   @desc "Sort direction"
   enum :sort_direction do
@@ -29,17 +30,14 @@ defmodule SpiritWeb.Schema do
   end
 
   import_types Absinthe.Type.Custom
-  import_types Types.Auth
   import_types Types.Emails
   import_types Types.Users
 
   query do
-    import_fields :auth_queries
     import_fields :user_queries
   end
 
   mutation do
-    import_fields :auth_mutations
     import_fields :user_mutations
     import_fields :email_mutations
   end
