@@ -15,6 +15,7 @@ defmodule SpiritWeb.Types.Users do
     field :name, non_null(:string)
     field :description, :string, do: complexity Complexity.weight(6)
     field :email, :email do
+      middleware Middleware.Auth, :user
       complexity Complexity.weight(5)
       resolve dataloader(Accounts)
     end

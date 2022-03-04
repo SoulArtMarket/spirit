@@ -7,17 +7,13 @@ defmodule SpiritWeb.Resolvers.Emails do
   alias Spirit.Accounts
 
   def create(args, _info) do
-    {user, args} = Map.pop!(args, :id)
-
-    user
+    args.id
     |> Accounts.get_user!()
     |> Accounts.create_email(args)
   end
 
   def update(args, _info) do
-    {user, args} = Map.pop!(args, :id)
-
-    user
+    args.id
     |> Accounts.get_email!()
     |> Accounts.update_email(args)
   end

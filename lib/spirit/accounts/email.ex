@@ -4,7 +4,6 @@ defmodule Spirit.Accounts.Email do
 
   @mutable_fields [
     :address,
-    :user_id,
     :verified,
     :notify_item_sold,
     :notify_bid_activity,
@@ -19,7 +18,13 @@ defmodule Spirit.Accounts.Email do
 
   @required_fields [:address]
 
+  @primary_key false
   schema "emails" do
+    belongs_to :user, Accounts.User,
+      type: :binary_id,
+      foreign_key: :id,
+      primary_key: true
+
     field :address, :string
     field :verified, :boolean
 
@@ -34,8 +39,6 @@ defmodule Spirit.Accounts.Email do
     field :bid_threshold, :float
     field :bid_unit, Ecto.Enum, values: [:sol, :usd]
 
-    belongs_to :user, Accounts.User, type: :binary_id
-
     timestamps()
   end
 
@@ -46,8 +49,11 @@ defmodule Spirit.Accounts.Email do
     |> validate_required(@required_fields)
     |> validate_length(:address, max: 254)
     |> validate_format_email(:address)
+    |> unique_constraint(:id,
+      name: :emails_pkey,
+      message: "already has a registered email"
+    )
     |> unique_constraint(:address)
-    |> unique_constraint(:user_id, message: "already has a registered email")
     |> validate_number(:bid_threshold, greater_than_or_equal_to: 0)
   end
 end
