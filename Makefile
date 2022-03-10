@@ -10,9 +10,7 @@ all: build
 build:
 	docker build \
 		--build-arg MIX_ENV=$(APP_ENV) \
-		-t $(APP_ORG)/$(APP_NAME):$(APP_VERSION)-$(BUILD)-$(APP_ENV) \
-		-t $(APP_ORG)/$(APP_NAME):latest .
+		-t $(APP_ORG)/$(APP_NAME):$(APP_VERSION)-$(BUILD)-$(APP_ENV) .
 
 push:
 	docker push $(APP_ORG)/$(APP_NAME):$(APP_VERSION)-$(BUILD)-$(APP_ENV)
-	docker push $(APP_ORG)/$(APP_NAME):latest
